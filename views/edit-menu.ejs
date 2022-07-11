@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Menu</title>
+</head>
+
+<body>
+  <h1>Edit Menu</h1>
+
+  <hr>
+  <form action="/menus/edit/<%= menu.id %>" method="post">
+    <input type="text" name="name" placeholder="Name" value="<%= menu.name %>"> <br>
+    <input type="number" name="price" placeholder="Price" value="<%= menu.price %>"> <br>
+    <input type="number" name="stock" placeholder="Stock" value="<%= menu.stock %>"> <br>
+    <input type="date" name="createdAt" placeholder="Created At" value="2022-07-11"> <br>
+
+    <select name="CategoryId">
+      <option value="" disabled>-- Select Category --</option>
+      <% categories.forEach(el=> { %>
+        <option value="<%= el.id %>" <%=el.id==menu.CategoryId ? 'selected' : '' %>>
+          <%= el.name %>
+        </option>
+        <% }) %>
+
+    </select> <br>
+
+    <input type="submit" value="SAVE">
+  </form>
+
+</body>
+
+</html>
