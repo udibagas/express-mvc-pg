@@ -1,4 +1,5 @@
-const Model = require("../models/model")
+const Category = require("../models/Category")
+const Menu = require("../models/Menu")
 
 class Controller {
   static home(req, res) {
@@ -6,8 +7,8 @@ class Controller {
   }
 
   static categories(req, res) {
-    Model.getAllCategories((err, categories) => {
-      if (err) res.send(send)
+    Category.getAll((err, categories) => {
+      if (err) res.send(err)
       else res.render('categories', { categories })
     })
   }
@@ -15,55 +16,70 @@ class Controller {
   static menus(req, res) {
     const { search } = req.query
 
-    Model.getAllMenus(search, (err, menus) => {
+    Menu.getAll(search, (err, menus) => {
       if (err) res.send(err)
       else res.render('menus', { menus })
     })
   }
 
   static showMenu(req, res) {
-    Model.getMenuById(+req.params.id, (err, menu) => {
+    Menu.getOneById(+req.params.id, (err, menu) => {
       if (err) res.send(err)
-      else res.render('show-menu', { menu })
+      else res.render('menu', { menu })
     })
   }
 
   static addMenu(req, res) {
-    Model.getAllCategories((err, categories) => {
+    Category.getAll((err, categories) => {
       if (err) res.send(err)
       else res.render('add-menu', { categories })
     })
   }
 
   static saveMenu(req, res) {
-    const { name, price, stock, createdAt, CategoryId } = req.body 
-    Model.createMenu(name, +price, +stock, createdAt, +CategoryId, (err) => {
+    const data = {
+      name: req.body.name,
+      CategoryId: +req.body.CategoryId,
+      stock: +req.body.stock,
+      price: +req.body.price,
+      createdAt: req.body.createdAt,
+    }
+
+    Menu.create(data, (err) => {
       if (err) res.send(err)
       else res.redirect('/menus')
     })
   }
 
   static deleteMenu(req, res) {
-    Model.deleteMenuById(+req.params.id, (err) => {
+    Menu.deleteById(+req.params.id, (err) => {
       if (err) res.send(err)
-      else res.redirect('/menus') 
+      else res.redirect('/menus')
     })
   }
 
   static editMenu(req, res) {
-    Model.getMenuById(+req.params.id, (err, menu) => {
+    Menu.getOneById(+req.params.id, (err, menu) => {
       if (err) res.send(err)
-      Model.getAllCategories((err, categories) => {
-        if (err) res.send(err)
-        else res.render('edit-menu', { categories, menu })
-      })
+      else {
+        Category.getAll((err, categories) => {
+          if (err) res.send(err)
+          else res.render('edit-menu', { menu, categories })
+        })
+      }
     })
   }
 
   static updateMenu(req, res) {
-    const { name, price, stock, createdAt, CategoryId } = req.body
-    const id = +req.params.id
-    Model.updateMenuById(name, +price, +stock, createdAt, +CategoryId, id, (err) => {
+    const data = {
+      name: req.body.name,
+      CategoryId: +req.body.CategoryId,
+      stock: +req.body.stock,
+      price: +req.body.price,
+      createdAt: req.body.createdAt,
+    }
+
+    Menu.update(+req.params.id, data, (err) => {
       if (err) res.send(err)
       else res.redirect('/menus')
     })

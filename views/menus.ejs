@@ -1,69 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Menus</title>
+  <title>Menus</title>
 </head>
-
 <body>
-  <h1>All Menus</h1>
+  <h1>Menus</h1>
 
-  <div style="margin: 20px 0">
-    <a href="/menus/add">Add Menu</a>
+  <a href="/menus/add">Add New Menu</a>
 
-    <form action="/menus" method="get">
-      <input type="text" name="search" placeholder="Search">
-      <input type="submit" value="Search">
-    </form>
-  </div>
+  <form action="/menus" method="get">
+    <input type="text" placeholder="Search" name="search">
+    <input type="submit" value="Search">
+  </form>
 
 
   <table border="1">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>No.</th>
         <th>Name</th>
-        <th>Price</th>
-        <th>Stock</th>
         <th>Category</th>
+        <th>Stock</th>
+        <th>Price</th>
         <th>Created At</th>
         <th>Action</th>
       </tr>
     </thead>
 
     <tbody>
-      <% menus.forEach(c=> { %>
+      <% menus.forEach((el, index) => { %>
         <tr>
+          <td><%= ++index %></td>
           <td>
-            <%= c.id %>
+            <a href="/menus/<%= el.id %>"><%= el.name %></a>
           </td>
-          <td>
-            <%= c.name %>
-          </td>
-          <td>
-            <%= c.formattedPrice %>
-          </td>
-          <td>
-            <%= c.stock %>
-          </td>
-          <td>
-            <%= c.category %>
-          </td>
-          <td>
-            <%= c.createdAt %>
-          </td>
+          <td><%= el.category %></td>
+          <td><%= el.stock %></td>
+          <td><%= el.formattedPrice %></td>
+          <td><%= el.formattedDate() %></td>
 
           <td>
-            <a href="/menus/delete/<%= c.id %>">Delete</a> |
-            <a href="/menus/edit/<%= c.id %>">Edit</a>
+            <a href="/menus/edit/<%= el.id %>">Edit</a> | 
+            <a href="/menus/delete/<%= el.id %>">Delete</a>
+
           </td>
         </tr>
-        <% }) %>
+      <% }) %>
     </tbody>
   </table>
 </body>
-
 </html>

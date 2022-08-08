@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Categories</title>
+  <title>Categories</title>
 </head>
-
 <body>
-  <h1>All Categories</h1>
+  <h1>Categories</h1>
 
   <table border="1">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>No.</th>
         <th>Name</th>
+        <th>Total Items</th>
+        <th>Total Stock</th>
       </tr>
     </thead>
 
     <tbody>
-      <% categories.forEach(c=> { %>
+      <% categories.forEach((el, index) => { %>
         <tr>
-          <td>
-            <%= c.id %>
-          </td>
-          <td>
-            <%= c.name %>
-          </td>
+          <td><%= ++index %></td>
+          <td><%= el.name %></td>
+          <td><%= el.totalItems %></td>
+          <td><%= el.totalStock %></td>
         </tr>
-        <% }) %>
+      <% }) %>
     </tbody>
   </table>
 </body>
-
 </html>
